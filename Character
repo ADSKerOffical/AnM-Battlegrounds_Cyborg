@@ -1,0 +1,173 @@
+local tool = Instance.new("Tool")
+tool.Name = "X-ray vision"
+tool.RequiresHandle = false
+tool.ToolTip = "Sees all players 10 seconds | Can be used once every 30 seconds"
+local cooldown = 30
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+
+-- Таблица для хранения ссылок на подсветки игроков
+local playerHighlights = {}
+
+-- Функция для подсветки игроков
+local function highlightPlayers()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local highlight = Instance.new("Highlight")
+            highlight.Name = "PlayerHighlight"
+            highlight.Adornee = player.Character
+            highlight.FillTransparency = 0.5
+            highlight.OutlineTransparency = 0.5
+            highlight.Parent = player.Character
+
+            -- Сохраняем ссылку на подсветку в таблице
+            playerHighlights[player] = highlight
+        end
+    end
+end
+
+-- Функция для удаления подсветки игроков
+local function removeHighlights()
+    for player, highlight in pairs(playerHighlights) do
+        if player.Character and player.Character:FindFirstChild("PlayerHighlight") then
+            highlight:Destroy()
+        end
+        playerHighlights[player] = nil
+    end
+end
+
+-- Функция для сброса освещения
+local function resetLighting()
+    Lighting.Ambient = Color3.fromRGB(178, 178, 178)
+    Lighting.Brightness = 2
+    Lighting.GlobalShadows = false
+end
+
+-- Запускаем функции
+highlightPlayers()
+wait(10)
+removeHighlights()
+resetLighting()
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local tool = Instance.new("Tool")
+tool.Name = "Laser ray"
+tool.RequiresHandle = false
+tool.ToolTip = "Fires a beam forward | Can be used once every 5 seconds"
+local cooldown = 5
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAppearance
+
+if character then
+    local humanoid = character:FindFirstChild("Humanoid")
+    if humanoid then
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+        if rootPart then
+            local direction = rootPart.CFrame.LookVector
+            local args = {
+                [1] = false,
+                [2] = rootPart.Position + (direction * 120)
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
+        end
+    end
+end
+
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local tool = Instance.new("Tool")
+tool.Name = "Voltage surge"
+tool.RequiresHandle = false
+tool.ToolTip = "Makes a sharp leap forward | Can be used once every 10 second"
+local distance = 70
+local cooldown = 10
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local args = {
+    [1] = false,
+    [2] = Vector3.new(0, 0, 0)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
+  local TweenService = game:GetService("TweenService")
+    local character = game.Players.LocalPlayer.Character
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        local newCFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -distance)
+        
+        local tweenInfo = TweenInfo.new(
+            0.2, -- Длительность анимации в секундах
+            Enum.EasingStyle.Linear, -- Стиль изменения (линейный делает движение равномерным)
+            Enum.EasingDirection.Out, -- Направление изменения
+            0, -- Количество повторений (0 означает без повторений)
+            false, -- Необходимость обратного движения
+            0 -- Задержка перед началом анимации
+        )
+        local tween = TweenService:Create(humanoidRootPart, tweenInfo, {CFrame = newCFrame})
+        
+        tween:Play()
+        tween.Completed:Wait() 
+  wait(0.2)
+local args = {
+    [1] = false,
+    [2] = Vector3.new(0, 0, 0)
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
+     end
+        
+        wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local tool = Instance.new("Tool")
+tool.Name = "More Energy"
+tool.RequiresHandle = false
+tool.ToolTip = "Increases speed 10 second time | Can be used once every 20 second"
+local cooldown = 20
+
+local isCooldown = false
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+local args = {
+    [1] = true,
+    [2] = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
+
+local count = 1
+repeat wait(1)
+ count = count + 1
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
+until count == 10
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
