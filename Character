@@ -105,12 +105,6 @@ local isCooldown = false
 tool.Activated:Connect(function()
 if isCooldown then return end
     isCooldown = true
-local args = {
-    [1] = false,
-    [2] = Vector3.new(0, 0, 0)
-}
-
-game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
   local TweenService = game:GetService("TweenService")
     local character = game.Players.LocalPlayer.Character
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
@@ -144,6 +138,45 @@ end)
 
 tool.Parent = game.Players.LocalPlayer.Backpack
 
+local function toolact()
+local tool = Instance.new("Tool")
+tool.Name = "Projectile"
+tool.RequiresHandle = false
+
+tool.Activated:Connect(function()
+tool:Destroy()
+local ohString1 = "Gyutaro"
+game:GetService("ReplicatedStorage").Picked:FireServer(ohString1)
+
+wait(0.3)
+for i = 1, 3 do
+game:GetService("Players").LocalPlayer.Backpack["Rampant Arc"].Keybind.Fire:FireServer()
+end
+
+local Player = game:GetService("Players").LocalPlayer
+local Backpack = Player.Backpack
+local Character = Player.Character
+
+for _,v in pairs(Backpack:GetChildren()) do
+   if v:IsA("Tool") or v:IsA("HopperBin") then
+     if v.Name == "Circual Slashes" or v.Name == "Rampant Rampage" or v.Name == "Rampant Arc" then
+       v:Destroy()
+   end
+   end
+end
+
+for _,v in pairs(Character:GetChildren()) do
+   if v:IsA("Tool") or v:IsA("HopperBin") then
+     if v.Name == "Circual Slashes" or v.Name == "Rampant Rampage" or v.Name == "Rampant Arc" then
+       v:Destroy()
+   end 
+end
+ end
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+end
+
 local tool = Instance.new("Tool")
 tool.Name = "More Energy"
 tool.RequiresHandle = false
@@ -151,6 +184,7 @@ tool.ToolTip = "Increases speed 10 second time | Can be used once every 20 secon
 local cooldown = 20
 
 local isCooldown = false
+
 tool.Activated:Connect(function()
 if isCooldown then return end
     isCooldown = true
@@ -160,12 +194,33 @@ local args = {
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("Kamehameha"):WaitForChild("Remotes"):WaitForChild("KamehamehaEvent"):FireServer(unpack(args))
-
+coroutine.wrap(toolact)()
 local count = 1
 repeat wait(1)
  count = count + 1
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 35
 until count == 10
+
+wait(cooldown)
+    isCooldown = false
+end)
+
+tool.Parent = game.Players.LocalPlayer.Backpack
+
+local cooldown = 30
+
+local isCooldown = false
+local tool = Instance.new("Tool")
+tool.Name = "Strike of Power"
+tool.RequiresHandle = false
+tool.ToolTip = "Makes a powerful blow | Can be used once 30 second time"
+
+tool.Activated:Connect(function()
+if isCooldown then return end
+    isCooldown = true
+for i = 1, 5 do
+game:GetService("ReplicatedStorage").Kj.Remotes["Collaretal Ruin"]:FireServer()
+end
 wait(cooldown)
     isCooldown = false
 end)
